@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import { TRAITS } from '../data/gameData';
 
 export default function CharacterCreation({ onCreate }) {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('男');
-  const [selectedTrait, setSelectedTrait] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name.trim() || !selectedTrait) return;
-    onCreate(name.trim(), gender, selectedTrait);
+    if (!name.trim()) return;
+    onCreate(name.trim(), gender);
   };
 
   return (
     <div className="creation-overlay">
       <div className="creation-modal">
-        <h1 className="creation-title">创建你的人生</h1>
+        <h1 className="creation-title">开始你的人生</h1>
+        <p className="creation-subtitle">从零开始，白手起家，一切都要靠自己打拼</p>
 
         <form onSubmit={handleSubmit} className="creation-form">
           <div className="form-group">
@@ -51,30 +50,17 @@ export default function CharacterCreation({ onCreate }) {
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">初始特质</label>
-            <div className="trait-grid">
-              {TRAITS.map((trait) => (
-                <button
-                  key={trait.id}
-                  type="button"
-                  className={`trait-card ${selectedTrait === trait.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedTrait(trait.id)}
-                >
-                  <span className="trait-icon">{trait.icon}</span>
-                  <span className="trait-name">{trait.name}</span>
-                  <span className="trait-desc">{trait.description}</span>
-                </button>
-              ))}
-            </div>
+          <div className="creation-note">
+            <span>💡</span>
+            <span>初始资金 ¥3000 · 所有能力从零开始 · 没有天赋加成</span>
           </div>
 
           <button
             type="submit"
             className="start-btn"
-            disabled={!name.trim() || !selectedTrait}
+            disabled={!name.trim()}
           >
-            开始人生
+            开始打工人生
           </button>
         </form>
       </div>

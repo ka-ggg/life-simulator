@@ -1,4 +1,4 @@
-import { NORMAL_STATS, WORK_STATS, getWorkLevel } from '../data/gameData';
+import { NORMAL_STATS, WORK_STATS, getWorkLevel, formatAge } from '../data/gameData';
 
 export default function StatsPanel({ character }) {
   const normalEntries = Object.entries(NORMAL_STATS).map(([key, info]) => ({
@@ -85,7 +85,7 @@ export default function StatsPanel({ character }) {
 
       <div className="age-display">
         <span className="age-label">年龄</span>
-        <span className="age-value">{character.age}岁</span>
+        <span className="age-value">{formatAge(character.ageMonths)}</span>
       </div>
 
       <div className="age-display" style={{ marginTop: 4 }}>

@@ -1,4 +1,4 @@
-export default function CharacterPanel({ character, lifeStage }) {
+export default function CharacterPanel({ character, lifeStage, formatAge }) {
   return (
     <div className="panel char-panel">
       <div className="panel-header" style={{ width: '100%' }}>
@@ -13,10 +13,14 @@ export default function CharacterPanel({ character, lifeStage }) {
       <div className="char-info">
         <span>{character.gender === '男' ? '♂' : '♀'}</span>
         <span>·</span>
-        <span>{character.age}岁</span>
+        <span>{formatAge(character.ageMonths)}</span>
       </div>
       <div className="char-stage-badge" style={{ color: lifeStage?.color, borderColor: lifeStage?.color }}>
         {lifeStage?.icon} {lifeStage?.name}
+      </div>
+      <div className="age-display">
+        <span className="age-label">财富</span>
+        <span className="age-value">¥{character.wealth?.toLocaleString()}</span>
       </div>
     </div>
   );

@@ -152,6 +152,11 @@ body {
   font-family: var(--font-display); font-size: 11px; font-weight: 700;
   color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;
 }
+.panel-header-hint {
+  font-size: 9px; color: var(--text-muted); margin-left: auto;
+  padding: 2px 8px; background: rgba(0,0,0,0.2); border-radius: 10px;
+  border: 1px solid var(--border-dark);
+}
 
 /* ===== Stat Bar ===== */
 .stat-item { display: flex; flex-direction: column; gap: 4px; }
@@ -246,6 +251,17 @@ body {
 }
 
 /* ===== Action Panel — AAA Game Button System ===== */
+.action-section {
+  margin-bottom: 10px;
+}
+.action-section:last-child { margin-bottom: 0; }
+.section-label {
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 6px; padding: 4px 8px;
+  background: rgba(0,0,0,0.2); border-left: 2px solid var(--border-mid);
+  display: flex; align-items: center; gap: 8px;
+}
 .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
 
 .action-btn {
@@ -371,6 +387,84 @@ body {
 .effect-tag.pos { color: var(--green-bright); background: rgba(46,204,113,0.08); }
 .effect-tag.neg { color: var(--red-bright); background: rgba(231,76,60,0.08); }
 .effect-tag.neutral { color: var(--text-dim); background: rgba(255,255,255,0.03); }
+
+/* ===== Basic Job Grid ===== */
+.basic-job-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.basic-job-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 10px 4px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.25));
+  border: 1px solid var(--border-dark); border-radius: var(--radius);
+  cursor: pointer; transition: none;
+  color: var(--text-dim); font-family: var(--font-body); font-size: 11px;
+  position: relative; overflow: hidden;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  outline: none; transform: translateZ(0);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.basic-job-btn::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12), transparent 70%);
+  opacity: 0; transition: opacity 0.15s ease;
+}
+.basic-job-btn:hover:not(:disabled)::before { opacity: 1; }
+.basic-job-btn .btn-border-glow {
+  position: absolute; inset: -1px; z-index: 0; pointer-events: none;
+  border-radius: var(--radius); opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 0 8px rgba(201,168,76,0.15), 0 0 2px rgba(201,168,76,0.1);
+}
+.basic-job-btn:hover:not(:disabled) .btn-border-glow { opacity: 1; }
+.basic-job-btn .ripple-container {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; border-radius: var(--radius);
+}
+.basic-job-btn:hover:not(:disabled) {
+  background: var(--bg-hover); border-color: var(--gold-dim);
+  transform: translateY(-1px); color: var(--text-bright);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 12px rgba(201,168,76,0.1);
+  transition: all 0.15s ease;
+}
+.basic-job-btn:active:not(:disabled) {
+  transform: scale(0.92) translateY(1px);
+  background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.3));
+  border-color: var(--gold);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.6), 0 0 18px rgba(201,168,76,0.2);
+  transition: all 0.08s ease;
+  color: var(--gold-bright);
+}
+.basic-job-btn:not(:active) {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+.basic-job-btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(0.6); }
+.basic-job-salary {
+  font-size: 10px; font-weight: 700; color: var(--gold-bright);
+  font-family: 'Cinzel', monospace; position: relative; z-index: 4;
+}
+
+/* Career working section */
+.career-working-label {
+  border-left-color: var(--green-dim);
+  background: rgba(39,174,96,0.04);
+}
+.career-salary-badge {
+  font-size: 10px; font-weight: 700; color: var(--gold-bright);
+  font-family: 'Cinzel', monospace; margin-left: auto;
+}
+.career-working-hint {
+  font-size: 10px; color: var(--text-dim); text-align: center;
+  padding: 6px 8px; background: rgba(39,174,96,0.03);
+  border: 1px solid rgba(39,174,96,0.1); border-radius: var(--radius-sm);
+  margin-bottom: 4px;
+}
+
+/* Flavor bar */
+.flavor-bar {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 8px 10px; background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.1); border-radius: var(--radius);
+  margin-bottom: 4px;
+}
+.flavor-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.flavor-text { font-size: 11px; color: var(--text-dim); font-style: italic; line-height: 1.5; }
 
 /* ===== Messages ===== */
 .job-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 0; }
@@ -579,8 +673,12 @@ body {
 }
 .creation-title {
   font-family: var(--font-display); font-size: 24px; font-weight: 900;
-  text-align: center; margin-bottom: 24px; color: var(--gold);
+  text-align: center; margin-bottom: 8px; color: var(--gold);
   text-shadow: 0 0 20px rgba(201,168,76,0.2); letter-spacing: 0.06em;
+}
+.creation-subtitle {
+  text-align: center; font-size: 13px; color: var(--text-dim);
+  margin-bottom: 20px; line-height: 1.5;
 }
 .creation-form { display: flex; flex-direction: column; gap: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
@@ -649,6 +747,13 @@ body {
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, box-shadow 0.15s ease;
 }
 .start-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.creation-note {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px; background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.1); border-radius: var(--radius);
+  font-size: 11px; color: var(--text-dim);
+}
 
 /* ===== Summary ===== */
 .summary-overlay {
@@ -879,6 +984,7 @@ body {
 
   /* Action grid */
   .action-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .basic-job-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
   .action-btn { padding: 10px 4px; min-height: 54px; }
   .action-icon { font-size: 20px; }
   .action-name { font-size: 11px; }
@@ -964,6 +1070,7 @@ body {
 
   /* Action grid — 3 columns for phones */
   .action-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .basic-job-grid { grid-template-columns: 1fr 1fr; gap: 3px; }
   .action-btn { padding: 8px 2px; min-height: 50px; }
   .action-icon { font-size: 18px; }
   .action-name { font-size: 10px; }

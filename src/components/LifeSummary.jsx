@@ -1,4 +1,4 @@
-import { NORMAL_STATS, WORK_STATS, getWorkLevel } from '../data/gameData';
+import { NORMAL_STATS, WORK_STATS, getWorkLevel, formatAge } from '../data/gameData';
 
 export default function LifeSummary({ character, ending, onRestart }) {
   const normalEntries = Object.entries(NORMAL_STATS).map(([key, info]) => ({
@@ -39,7 +39,7 @@ export default function LifeSummary({ character, ending, onRestart }) {
           <div className="summary-stats">
             <div className="summary-char-info">
               <span className="summary-name">{character.name}</span>
-              <span className="summary-age">享年 {character.age} 岁</span>
+              <span className="summary-age">享年 {formatAge(character.ageMonths)}</span>
             </div>
             <div className="summary-stats-grid">
               {allStats.map((stat) => (

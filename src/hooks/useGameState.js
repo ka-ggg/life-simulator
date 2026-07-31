@@ -6,12 +6,12 @@ import {
   getAvailableEvents,
   getEnding,
   getLifeStage,
+  formatAge,
   CAREER_WORK_STAT_MAP,
 } from '../data/gameData';
 import {
   createJobState,
   getCareerInfo,
-  canPromote,
   checkRequirements,
   getMissingRequirements,
   workDayTick,
@@ -27,21 +27,24 @@ export function useGameState() {
   const [recentEventIds, setRecentEventIds] = useState([]);
   const [eventTriggered, setEventTriggered] = useState(false);
   const [jobMessages, setJobMessages] = useState([]);
+  const [lastFlavor, setLastFlavor] = useState(null);
 
   const addJobMessage = useCallback((msg) => {
     setJobMessages(prev => [{ id: Date.now(), ...msg }, ...prev].slice(0, 10));
   }, []);
 
-  const createCharacter = useCallback((name, gender, trait) => {
-    const char = createInitialCharacter(name, gender, trait);
+  // 创建角色（无天赋）
+  const createCharacter = useCallback((name, gender) => {
+    const char = createInitialCharacter(name, gender);
     setCharacter(char);
     setGamePhase('playing');
     setRecentEventIds([]);
     setEventTriggered(false);
     setJobMessages([]);
+    setLastFlavor(null);
   }, []);
 
-  // 入职
+  // 入职职业
   const applyForJob = useCallback((careerId) => {
     if (!character || character.job) return;
     const info = getCareerInfo(careerId);
@@ -54,7 +57,7 @@ export function useGameState() {
       return;
     }
     const jobState = createJobState(careerId);
-    setCharacter(prev => ({ ...prev, job: jobState }));
+    setCharacter(prev => ({ ...prev, job: jobState, currentBasicJob: null }));
     setGamePhase('playing');
     addJobMessage({ type: 'success', text: `入职成功：${info.career.icon} ${level1.title}！月薪 ¥${level1.salary.toLocaleString()}` });
   }, [character, addJobMessage]);
@@ -88,6 +91,85 @@ export function useGameState() {
     addJobMessage({ type: 'warning', text: '已提交辞职申请，还需工作 2 天完成离职手续' });
   }, [character, addJobMessage]);
 
+  // 做底层打工
+  const doBasicJob = useCallback((basicJob) => {
+    if (!character || !character.isAlive) return;
+    let newChar = { ...character };
+
+    // 如果有职业工作，不允许做底层打工
+    if (newChar.job) {
+      addJobMessage({ type: 'error', text: '你已经有正式工作了，不能同时做兼职！' });
+      return;
+    }
+
+    // 应用底层工作的效果
+    const effects = { ...basicJob.effects };
+
+    newChar.mood = Math.max(0, Math.min(100, (newChar.mood || 50) + (effects.mood || 0)));
+    newChar.health = Math.max(0, Math.min(100, (newChar.health || 50) + (effects.health || 0)));
+    newChar.stamina = Math.max(0, Math.min(100, (newChar.stamina || 50) + (effects.stamina || 0)));
+    newChar.hunger = Math.max(0, Math.min(100, (newChar.hunger || 50) + (effects.hunger || 0)));
+
+    // 工作数值微升
+    if (basicJob.workStatBoost) {
+      newChar.research = Math.min(100, (newChar.research || 0) + Math.floor(basicJob.workStatBoost * 0.5));
+      newChar.sales = Math.min(100, (newChar.sales || 0) + Math.floor(basicJob.workStatBoost * 0.3));
+    }
+
+    // 发月薪
+    newChar.wealth = (newChar.wealth || 0) + basicJob.salary;
+
+    // 时间推进
+    newChar.ageMonths += 1;
+
+    // 饥饿惩罚
+    if (newChar.hunger <= 0) {
+      newChar.health = Math.max(0, newChar.health - 5);
+      newChar.mood = Math.max(0, newChar.mood - 5);
+    }
+    if (newChar.stamina <= 0) {
+      newChar.health = Math.max(0, newChar.health - 3);
+    }
+
+    newChar.actionsTaken = [...(newChar.actionsTaken || []), { action: basicJob.id, ageMonths: newChar.ageMonths }];
+
+    const eventLog = {
+      type: 'action',
+      action: basicJob.name,
+      icon: basicJob.icon,
+      effects: { ...effects, wealth: basicJob.salary },
+      ageMonths: newChar.ageMonths,
+    };
+    newChar.events = [eventLog, ...(newChar.events || [])].slice(0, 20);
+
+    setLastFlavor(basicJob.flavor);
+
+    const age = newChar.ageMonths / 12;
+    if (newChar.health <= 0 || age >= 80) {
+      newChar.isAlive = false;
+    }
+
+    setCharacter(newChar);
+
+    // 随机事件
+    if (newChar.isAlive && !eventTriggered) {
+      const roll = Math.random();
+      if (roll < 0.3) {
+        const available = getAvailableEvents(newChar, recentEventIds);
+        if (available.length > 0) {
+          const event = available[Math.floor(Math.random() * available.length)];
+          setCurrentEvent(event);
+          setGamePhase('event');
+          setEventTriggered(true);
+          return;
+        }
+      }
+    }
+    setEventTriggered(false);
+    if (!newChar.isAlive) setGamePhase('ended');
+  }, [character, eventTriggered, recentEventIds, addJobMessage]);
+
+  // 执行通用行动（自我提升/生活维持）
   const performAction = useCallback((action) => {
     if (!character || !character.isAlive) return;
 
@@ -128,15 +210,18 @@ export function useGameState() {
     // 应用行动效果
     newChar = applyAction(newChar, action);
 
-    // 工作行动：提升对应职业的工作数值
-    if (newChar.job && action.id === 'work') {
+    // 如果行动是自我提升类且有flavor
+    if (action.flavor) {
+      setLastFlavor(action.flavor);
+    }
+
+    // 有职业时，自我提升类行动也会推进工作
+    if (newChar.job && ['study', 'social', 'create', 'invest', 'network'].includes(action.id)) {
       const info = getCareerInfo(newChar.job.careerId);
       const workStat = info ? CAREER_WORK_STAT_MAP[info.category.id] : null;
       if (workStat) {
-        newChar[workStat] = Math.min(100, (newChar[workStat] || 0) + (action.workStatBoost || 3));
+        newChar[workStat] = Math.min(100, (newChar[workStat] || 0) + 2);
       }
-      // 工作时额外赚取日薪
-      newChar.wealth = (newChar.wealth || 0) + Math.floor(newChar.job.salary * 0.015);
     }
 
     setCharacter(newChar);
@@ -144,7 +229,7 @@ export function useGameState() {
     // 随机事件检查
     if (newChar.isAlive && !eventTriggered && !newChar.job?.isResigning) {
       const roll = Math.random();
-      if (roll < 0.35) {
+      if (roll < 0.3) {
         const available = getAvailableEvents(newChar, recentEventIds);
         if (available.length > 0) {
           const event = available[Math.floor(Math.random() * available.length)];
@@ -190,17 +275,11 @@ export function useGameState() {
     setRecentEventIds([]);
     setEventTriggered(false);
     setJobMessages([]);
+    setLastFlavor(null);
   }, []);
 
   const ending = character && !character.isAlive ? getEnding(character) : null;
-  const lifeStage = character ? getLifeStage(character.age) : null;
-
-  // 格式化薪资
-  const formatSalary = (n) => {
-    if (n >= 10000) return (n / 10000).toFixed(n % 10000 === 0 ? 0 : 1) + '万';
-    if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
-    return String(n);
-  };
+  const lifeStage = character ? getLifeStage(character.ageMonths) : null;
 
   return {
     character,
@@ -210,15 +289,16 @@ export function useGameState() {
     ending,
     lifeStage,
     jobMessages,
+    lastFlavor,
     createCharacter,
     performAction,
+    doBasicJob,
     handleEventChoice,
     handleEventContinue,
     resetGame,
     applyForJob,
     handlePromote,
     handleStartResignation,
-    canPromote: character ? canPromote(character) : false,
-    formatSalary,
+    formatAge,
   };
 }

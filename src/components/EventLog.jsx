@@ -6,7 +6,7 @@ const STAT_ICONS = {
   wealth: '💰',
 };
 
-export default function EventLog({ events }) {
+export default function EventLog({ events, formatAge }) {
   if (!events || events.length === 0) {
     return (
       <div className="panel event-log-panel">

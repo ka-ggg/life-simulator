@@ -19,15 +19,17 @@ export default function App() {
     ending,
     lifeStage,
     jobMessages,
+    lastFlavor,
     createCharacter,
     performAction,
+    doBasicJob,
     handleEventChoice,
     handleEventContinue,
     resetGame,
     applyForJob,
     handlePromote,
     handleStartResignation,
-    canPromote,
+    formatAge,
   } = useGameState();
 
   return (
@@ -46,7 +48,7 @@ export default function App() {
               <span className="header-title">模拟人生</span>
             </div>
             <div className="header-stats">
-              <span className="header-age">{character.age}岁</span>
+              <span className="header-age">{formatAge(character.ageMonths)}</span>
               <span className="header-stage" style={{ color: lifeStage?.color }}>
                 {lifeStage?.name}
               </span>
@@ -55,7 +57,7 @@ export default function App() {
 
           <main className="game-main">
             <div className="game-left">
-              <CharacterPanel character={character} lifeStage={lifeStage} />
+              <CharacterPanel character={character} lifeStage={lifeStage} formatAge={formatAge} />
               <JobPanel
                 character={character}
                 onOpenMarket={() => setGamePhase('jobMarket')}
@@ -66,11 +68,19 @@ export default function App() {
             </div>
             <div className="game-center">
               <StatsPanel character={character} />
-              <EventLog events={character.events} />
+              {lastFlavor && (
+                <div className="flavor-bar">
+                  <span className="flavor-icon">📝</span>
+                  <span className="flavor-text">{lastFlavor}</span>
+                </div>
+              )}
+              <EventLog events={character.events} formatAge={formatAge} />
             </div>
             <div className="game-right">
               <ActionPanel
+                character={character}
                 onAction={performAction}
+                onBasicJob={doBasicJob}
                 disabled={gamePhase === 'event'}
               />
             </div>
@@ -99,6 +109,7 @@ export default function App() {
           character={character}
           ending={ending}
           onRestart={resetGame}
+          formatAge={formatAge}
         />
       )}
     </div>
