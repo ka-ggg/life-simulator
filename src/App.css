@@ -1081,6 +1081,665 @@ body {
   background: var(--border-glow);
 }
 
+/* ===== 职业面板 ===== */
+.job-panel {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 无职业状态 */
+.job-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.job-empty-icon {
+  font-size: 36px;
+  opacity: 0.6;
+}
+
+.job-empty-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.job-empty-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.job-market-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  margin-top: 8px;
+}
+
+.job-market-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* 当前职业 */
+.job-current {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.job-current-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.job-current-icon {
+  font-size: 28px;
+}
+
+.job-current-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.job-current-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.job-current-career {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.job-current-level {
+  flex-shrink: 0;
+}
+
+.job-level-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-purple);
+  font-family: var(--font-mono);
+}
+
+.job-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.job-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-detail-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.job-detail-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.job-detail-value.income {
+  color: var(--accent-cyan);
+}
+
+/* 辞职中 */
+.job-resigning {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-sm);
+}
+
+.job-resigning-icon {
+  font-size: 20px;
+}
+
+.job-resigning-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.job-resigning-days {
+  font-size: 12px;
+  color: var(--accent-gold);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* 下一级 */
+.job-next-level {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(0, 212, 170, 0.05);
+  border: 1px solid rgba(0, 212, 170, 0.15);
+  border-radius: var(--radius-md);
+}
+
+.jnl-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.jnl-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.jnl-level {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+}
+
+.jnl-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.jnl-salary {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+}
+
+.jnl-reqs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.jnl-req {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+.jnl-req.met {
+  color: var(--accent-green);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.jnl-req.unmet {
+  color: var(--accent-red);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* 最高级别 */
+.job-max-level {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 10px;
+  font-size: 13px;
+  color: var(--accent-gold);
+  background: rgba(245, 158, 11, 0.08);
+  border-radius: var(--radius-md);
+}
+
+/* 操作按钮 */
+.job-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.job-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.promote-btn {
+  background: linear-gradient(135deg, var(--accent-cyan), #00a8e8);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(0, 212, 170, 0.25);
+}
+
+.promote-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(0, 212, 170, 0.35);
+}
+
+.resign-btn {
+  background: var(--bg-secondary);
+  color: var(--accent-red);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.resign-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* 职业消息 */
+.job-messages {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.job-msg {
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  line-height: 1.4;
+}
+
+.job-msg-success {
+  color: var(--accent-green);
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.15);
+}
+
+.job-msg-error {
+  color: var(--accent-red);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.job-msg-warning {
+  color: var(--accent-gold);
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+}
+
+.job-msg-info {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+}
+
+.job-msg-income {
+  color: var(--accent-cyan);
+  background: rgba(0, 212, 170, 0.08);
+  border: 1px solid rgba(0, 212, 170, 0.15);
+}
+
+/* ===== 职业市场弹窗 ===== */
+.job-market-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  width: 720px;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.2), var(--shadow-card);
+  animation: modalIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.job-market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.job-market-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.jm-title-icon {
+  font-size: 24px;
+}
+
+.jm-close-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.jm-close-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-red);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* 分类标签 */
+.jm-categories {
+  display: flex;
+  gap: 6px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.jm-cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.jm-cat-btn:hover {
+  border-color: var(--accent-purple);
+  color: var(--text-primary);
+}
+
+.jm-cat-btn.active {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
+}
+
+.jm-cat-icon {
+  font-size: 16px;
+}
+
+.jm-category-desc {
+  padding: 12px 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+/* 职业列表 */
+.jm-careers-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.jm-career-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  transition: border-color 0.2s;
+}
+
+.jm-career-card:hover {
+  border-color: var(--border-glow);
+}
+
+.jm-career-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.jm-career-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.jm-career-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.jm-career-text {
+  min-width: 0;
+}
+
+.jm-career-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.jm-career-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 入职按钮 */
+.jm-apply-btn {
+  padding: 8px 20px;
+  background: linear-gradient(135deg, var(--accent-cyan), #00a8e8);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(0, 212, 170, 0.25);
+}
+
+.jm-apply-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(0, 212, 170, 0.35);
+}
+
+.jm-status-employed {
+  padding: 6px 14px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--accent-purple);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.jm-locked {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.jm-lock-icon {
+  font-size: 12px;
+}
+
+.jm-lock-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* 等级预览 */
+.jm-levels {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.jm-level-item {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.jm-level-item.jm-level-current {
+  border-color: rgba(0, 212, 170, 0.25);
+  background: rgba(0, 212, 170, 0.04);
+}
+
+.jm-level-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.jm-level-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-purple);
+  font-family: var(--font-mono);
+  padding: 1px 5px;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 4px;
+}
+
+.jm-level-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.jm-level-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jm-level-salary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+}
+
+.jm-level-reqs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.jm-req-tag {
+  font-size: 10px;
+  padding: 1px 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* 入职条件不足 */
+.jm-missing-reqs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.12);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+}
+
+.jm-missing-label {
+  font-size: 11px;
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.jm-missing-tag {
+  font-size: 11px;
+  padding: 2px 6px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 4px;
+  color: var(--accent-red);
+  font-family: var(--font-mono);
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 1024px) {
   .game-main {

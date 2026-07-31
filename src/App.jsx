@@ -6,20 +6,28 @@ import ActionPanel from './components/ActionPanel';
 import EventLog from './components/EventLog';
 import EventModal from './components/EventModal';
 import LifeSummary from './components/LifeSummary';
+import JobPanel from './components/JobPanel';
+import JobMarket from './components/JobMarket';
 import './App.css';
 
 export default function App() {
   const {
     character,
     gamePhase,
+    setGamePhase,
     currentEvent,
     ending,
     lifeStage,
+    jobMessages,
     createCharacter,
     performAction,
     handleEventChoice,
     handleEventContinue,
-    resetGame
+    resetGame,
+    applyForJob,
+    handlePromote,
+    handleStartResignation,
+    canPromote,
   } = useGameState();
 
   return (
@@ -48,6 +56,13 @@ export default function App() {
           <main className="game-main">
             <div className="game-left">
               <CharacterPanel character={character} lifeStage={lifeStage} />
+              <JobPanel
+                character={character}
+                onOpenMarket={() => setGamePhase('jobMarket')}
+                onPromote={handlePromote}
+                onStartResignation={handleStartResignation}
+                jobMessages={jobMessages}
+              />
             </div>
             <div className="game-center">
               <StatsPanel character={character} />
@@ -61,6 +76,14 @@ export default function App() {
             </div>
           </main>
         </div>
+      )}
+
+      {gamePhase === 'jobMarket' && character && (
+        <JobMarket
+          character={character}
+          onApply={applyForJob}
+          onClose={() => setGamePhase('playing')}
+        />
       )}
 
       {gamePhase === 'event' && currentEvent && (
