@@ -5,7 +5,8 @@ import {
   applyEvent,
   getAvailableEvents,
   getEnding,
-  getLifeStage
+  getLifeStage,
+  CAREER_WORK_STAT_MAP,
 } from '../data/gameData';
 import {
   createJobState,
@@ -21,11 +22,11 @@ import {
 
 export function useGameState() {
   const [character, setCharacter] = useState(null);
-  const [gamePhase, setGamePhase] = useState('creation'); // creation | playing | event | ended | jobMarket
+  const [gamePhase, setGamePhase] = useState('creation');
   const [currentEvent, setCurrentEvent] = useState(null);
   const [recentEventIds, setRecentEventIds] = useState([]);
   const [eventTriggered, setEventTriggered] = useState(false);
-  const [jobMessages, setJobMessages] = useState([]); // 职业相关消息
+  const [jobMessages, setJobMessages] = useState([]);
 
   const addJobMessage = useCallback((msg) => {
     setJobMessages(prev => [{ id: Date.now(), ...msg }, ...prev].slice(0, 10));
@@ -47,13 +48,15 @@ export function useGameState() {
     if (!info) return;
     const level1 = info.career.levels[0];
     if (!checkRequirements(character, level1.requirements)) {
-      addJobMessage({ type: 'error', text: `不满足入职条件！` });
+      const missing = getMissingRequirements(character, level1.requirements);
+      const labels = missing.map(m => `${m.label} ${m.current}/${m.required}`).join('、');
+      addJobMessage({ type: 'error', text: `不满足入职条件！缺少：${labels}` });
       return;
     }
     const jobState = createJobState(careerId);
     setCharacter(prev => ({ ...prev, job: jobState }));
     setGamePhase('playing');
-    addJobMessage({ type: 'success', text: `成功入职：${info.career.icon} ${level1.title}！月薪 ¥${level1.salary}` });
+    addJobMessage({ type: 'success', text: `入职成功：${info.career.icon} ${level1.title}！月薪 ¥${level1.salary.toLocaleString()}` });
   }, [character, addJobMessage]);
 
   // 晋升
@@ -63,7 +66,7 @@ export function useGameState() {
     if (!info) return;
     const nextLevel = info.career.levels.find(l => l.level === character.job.level + 1);
     if (!nextLevel) {
-      addJobMessage({ type: 'info', text: `已达到最高级别！` });
+      addJobMessage({ type: 'info', text: '已达到最高级别！' });
       return;
     }
     if (!checkRequirements(character, nextLevel.requirements)) {
@@ -74,7 +77,7 @@ export function useGameState() {
     }
     const newJob = promoteJob(character.job);
     setCharacter(prev => ({ ...prev, job: newJob }));
-    addJobMessage({ type: 'success', text: `晋升成功：${nextLevel.title}！月薪 ¥${nextLevel.salary}` });
+    addJobMessage({ type: 'success', text: `晋升成功：${nextLevel.title}！月薪 ¥${nextLevel.salary.toLocaleString()}` });
   }, [character, addJobMessage]);
 
   // 发起辞职
@@ -82,7 +85,7 @@ export function useGameState() {
     if (!character?.job || character.job.isResigning) return;
     const newJob = startResignation(character.job);
     setCharacter(prev => ({ ...prev, job: newJob }));
-    addJobMessage({ type: 'warning', text: `已提交辞职申请，还需工作 2 天完成离职手续` });
+    addJobMessage({ type: 'warning', text: '已提交辞职申请，还需工作 2 天完成离职手续' });
   }, [character, addJobMessage]);
 
   const performAction = useCallback((action) => {
@@ -93,12 +96,12 @@ export function useGameState() {
     // 职业系统：推进工作天数
     if (newChar.job) {
       let job = workDayTick(newChar.job);
-      const wasPayday = newChar.job.workDay >= 29; // 即将满30天发薪
+      const wasPayday = newChar.job.workDay >= 29;
 
       // 发薪日
       if (wasPayday && job.workDay === 0) {
-        newChar.wealth += job.salary;
-        addJobMessage({ type: 'income', text: `发薪日！${job.title} 月薪 +¥${job.salary}` });
+        newChar.wealth = (newChar.wealth || 0) + job.salary;
+        addJobMessage({ type: 'income', text: `发薪日！${job.title} 月薪 +¥${job.salary.toLocaleString()}` });
       }
 
       // 辞职流程推进
@@ -107,13 +110,13 @@ export function useGameState() {
         job = result.job;
         if (result.completed) {
           if (result.shouldPay) {
-            newChar.wealth += job.salary;
-            addJobMessage({ type: 'income', text: `离职结算：当月工资照发 +¥${job.salary}` });
+            newChar.wealth = (newChar.wealth || 0) + job.salary;
+            addJobMessage({ type: 'income', text: `离职结算：当月工资照发 +¥${job.salary.toLocaleString()}` });
           } else {
-            addJobMessage({ type: 'info', text: `离职完成：当月工作不足15天，不发放工资` });
+            addJobMessage({ type: 'info', text: '离职完成：当月工作不足15天，不发放工资' });
           }
           newChar.job = null;
-          addJobMessage({ type: 'info', text: `已正式离职，可以寻找新的工作机会` });
+          addJobMessage({ type: 'info', text: '已正式离职，可以寻找新的工作机会' });
         } else {
           newChar.job = job;
         }
@@ -125,10 +128,15 @@ export function useGameState() {
     // 应用行动效果
     newChar = applyAction(newChar, action);
 
-    // 职业行动加成
+    // 工作行动：提升对应职业的工作数值
     if (newChar.job && action.id === 'work') {
-      newChar.wealth += Math.floor(newChar.job.salary * 0.3);
-      newChar.career = Math.min(100, newChar.career + 3);
+      const info = getCareerInfo(newChar.job.careerId);
+      const workStat = info ? CAREER_WORK_STAT_MAP[info.category.id] : null;
+      if (workStat) {
+        newChar[workStat] = Math.min(100, (newChar[workStat] || 0) + (action.workStatBoost || 3));
+      }
+      // 工作时额外赚取日薪
+      newChar.wealth = (newChar.wealth || 0) + Math.floor(newChar.job.salary * 0.015);
     }
 
     setCharacter(newChar);
@@ -157,30 +165,22 @@ export function useGameState() {
 
   const handleEventChoice = useCallback((choiceIndex) => {
     if (!currentEvent || !character) return;
-
     const newChar = applyEvent(character, currentEvent, choiceIndex);
     setCharacter(newChar);
     setRecentEventIds(prev => [...prev, currentEvent.id].slice(-10));
     setCurrentEvent(null);
     setGamePhase('playing');
-
-    if (!newChar.isAlive) {
-      setGamePhase('ended');
-    }
+    if (!newChar.isAlive) setGamePhase('ended');
   }, [currentEvent, character]);
 
   const handleEventContinue = useCallback(() => {
     if (!currentEvent || !character) return;
-
     const newChar = applyEvent(character, currentEvent, null);
     setCharacter(newChar);
     setRecentEventIds(prev => [...prev, currentEvent.id].slice(-10));
     setCurrentEvent(null);
     setGamePhase('playing');
-
-    if (!newChar.isAlive) {
-      setGamePhase('ended');
-    }
+    if (!newChar.isAlive) setGamePhase('ended');
   }, [currentEvent, character]);
 
   const resetGame = useCallback(() => {
@@ -194,6 +194,13 @@ export function useGameState() {
 
   const ending = character && !character.isAlive ? getEnding(character) : null;
   const lifeStage = character ? getLifeStage(character.age) : null;
+
+  // 格式化薪资
+  const formatSalary = (n) => {
+    if (n >= 10000) return (n / 10000).toFixed(n % 10000 === 0 ? 0 : 1) + '万';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+    return String(n);
+  };
 
   return {
     character,
@@ -212,5 +219,6 @@ export function useGameState() {
     handlePromote,
     handleStartResignation,
     canPromote: character ? canPromote(character) : false,
+    formatSalary,
   };
 }

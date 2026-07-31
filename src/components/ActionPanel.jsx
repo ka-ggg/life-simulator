@@ -1,4 +1,10 @@
-import { ACTIONS } from '../data/gameData';
+import { ACTIONS, NORMAL_STATS, WORK_STATS } from '../data/gameData';
+
+const STAT_ICONS = {
+  ...Object.fromEntries(Object.entries(NORMAL_STATS).map(([k, v]) => [k, v.icon])),
+  ...Object.fromEntries(Object.entries(WORK_STATS).map(([k, v]) => [k, v.icon])),
+  wealth: '💰',
+};
 
 export default function ActionPanel({ onAction, disabled }) {
   return (
@@ -19,11 +25,10 @@ export default function ActionPanel({ onAction, disabled }) {
             <span className="action-name">{action.name}</span>
             <span className="action-effects">
               {Object.entries(action.effects).map(([key, val]) => {
-                const signs = { health: '❤️', happiness: '😊', wealth: '💰', career: '💼' };
-                const sign = signs[key] || '';
+                const sign = STAT_ICONS[key] || '';
                 const prefix = val > 0 ? '+' : '';
                 return (
-                  <span key={key} className={`effect-tag ${val > 0 ? 'positive' : 'negative'}`}>
+                  <span key={key} className={`effect-tag ${val > 0 ? 'pos' : 'neg'}`}>
                     {sign}{prefix}{key === 'wealth' ? `¥${val}` : val}
                   </span>
                 );

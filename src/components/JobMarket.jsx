@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { CAREER_CATEGORIES, checkRequirements, getMissingRequirements } from '../data/careerData';
+import { WORK_STATS } from '../data/gameData';
 
-const STAT_LABELS = { career: '事业', health: '健康', happiness: '快乐', wealth: '财富' };
+const STAT_LABELS = Object.fromEntries(
+  Object.entries(WORK_STATS).map(([k, v]) => [k, v.name])
+);
 
 export default function JobMarket({ character, onApply, onClose }) {
   const [activeCategory, setActiveCategory] = useState(CAREER_CATEGORIES[0].id);
-
   const category = CAREER_CATEGORIES.find(c => c.id === activeCategory);
 
   return (
@@ -19,7 +21,6 @@ export default function JobMarket({ character, onApply, onClose }) {
           <button className="jm-close-btn" onClick={onClose}>✕</button>
         </div>
 
-        {/* 分类标签 */}
         <div className="jm-categories">
           {CAREER_CATEGORIES.map(cat => (
             <button
@@ -28,24 +29,21 @@ export default function JobMarket({ character, onApply, onClose }) {
               onClick={() => setActiveCategory(cat.id)}
             >
               <span className="jm-cat-icon">{cat.icon}</span>
-              <span className="jm-cat-name">{cat.name}</span>
+              <span>{cat.name}</span>
             </button>
           ))}
         </div>
 
-        {/* 分类描述 */}
         {category && (
           <div className="jm-category-desc">{category.description}</div>
         )}
 
-        {/* 职业列表 */}
         {category && (
           <div className="jm-careers-list">
             {category.careers.map(career => {
               const level1 = career.levels[0];
               const canApply = !character.job && checkRequirements(character, level1.requirements);
               const missing = !character.job ? getMissingRequirements(character, level1.requirements) : [];
-              const maxLevel = career.levels[career.levels.length - 1];
 
               return (
                 <div key={career.id} className="jm-career-card">
@@ -71,7 +69,6 @@ export default function JobMarket({ character, onApply, onClose }) {
                     )}
                   </div>
 
-                  {/* 等级预览 */}
                   <div className="jm-levels">
                     {career.levels.map((lv, i) => (
                       <div key={lv.level} className={`jm-level-item ${i === 0 ? 'jm-level-current' : ''}`}>
@@ -80,7 +77,7 @@ export default function JobMarket({ character, onApply, onClose }) {
                           <span className="jm-level-title">{lv.title}</span>
                         </div>
                         <div className="jm-level-info">
-                          <span className="jm-level-salary">💰 ¥{lv.salary}/月</span>
+                          <span className="jm-level-salary">💰 ¥{lv.salary.toLocaleString()}/月</span>
                           <span className="jm-level-reqs">
                             {Object.entries(lv.requirements).map(([k, v]) => (
                               <span key={k} className="jm-req-tag">
@@ -93,7 +90,6 @@ export default function JobMarket({ character, onApply, onClose }) {
                     ))}
                   </div>
 
-                  {/* 入职条件提示 */}
                   {!character.job && !canApply && missing.length > 0 && (
                     <div className="jm-missing-reqs">
                       <span className="jm-missing-label">入职缺少：</span>

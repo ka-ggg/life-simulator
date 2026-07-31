@@ -1,3 +1,11 @@
+import { NORMAL_STATS, WORK_STATS } from '../data/gameData';
+
+const STAT_ICONS = {
+  ...Object.fromEntries(Object.entries(NORMAL_STATS).map(([k, v]) => [k, v.icon])),
+  ...Object.fromEntries(Object.entries(WORK_STATS).map(([k, v]) => [k, v.icon])),
+  wealth: '💰',
+};
+
 export default function EventLog({ events }) {
   if (!events || events.length === 0) {
     return (
@@ -28,8 +36,7 @@ export default function EventLog({ events }) {
             <span className="event-log-effects">
               {event.effects && Object.entries(event.effects).map(([key, val]) => {
                 if (val === 0) return null;
-                const signs = { health: '❤️', happiness: '😊', wealth: '💰', career: '💼' };
-                const sign = signs[key] || '';
+                const sign = STAT_ICONS[key] || '';
                 const prefix = val > 0 ? '+' : '';
                 return (
                   <span key={key} className={`mini-effect ${val > 0 ? 'positive' : 'negative'}`}>

@@ -1,15 +1,29 @@
+import { NORMAL_STATS, WORK_STATS } from '../data/gameData';
+
 export default function LifeSummary({ character, ending, onRestart }) {
-  const stats = [
-    { label: '健康', value: character.health, icon: '❤️', max: 100 },
-    { label: '快乐', value: character.happiness, icon: '😊', max: 100 },
-    { label: '财富', value: character.wealth, icon: '💰', format: 'money' },
-    { label: '事业', value: character.career, icon: '💼', max: 100 },
+  const normalEntries = Object.entries(NORMAL_STATS).map(([key, info]) => ({
+    label: info.name,
+    icon: info.icon,
+    value: character[key] || 0,
+    max: 100,
+  }));
+
+  const workEntries = Object.entries(WORK_STATS).map(([key, info]) => ({
+    label: info.name,
+    icon: info.icon,
+    value: character[key] || 0,
+    max: 100,
+  }));
+
+  const allStats = [
+    ...normalEntries,
+    { label: '财富', icon: '💰', value: character.wealth || 0, format: 'money' },
+    ...workEntries,
   ];
 
   return (
-    <div className="modal-overlay">
+    <div className="summary-overlay">
       <div className="summary-modal">
-        <div className="summary-glow" style={{ '--glow-color': ending.color }} />
         <div className="summary-content">
           <div className="summary-grade" style={{ color: ending.color }}>
             {ending.grade}
@@ -25,7 +39,7 @@ export default function LifeSummary({ character, ending, onRestart }) {
               <span className="summary-age">享年 {character.age} 岁</span>
             </div>
             <div className="summary-stats-grid">
-              {stats.map((stat) => (
+              {allStats.map((stat) => (
                 <div key={stat.label} className="summary-stat-item">
                   <span className="summary-stat-icon">{stat.icon}</span>
                   <span className="summary-stat-label">{stat.label}</span>

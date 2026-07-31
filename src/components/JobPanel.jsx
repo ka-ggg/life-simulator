@@ -1,4 +1,9 @@
 import { getCareerInfo } from '../data/careerData';
+import { WORK_STATS } from '../data/gameData';
+
+const STAT_LABELS = Object.fromEntries(
+  Object.entries(WORK_STATS).map(([k, v]) => [k, v.name])
+);
 
 export default function JobPanel({ character, onOpenMarket, onPromote, onStartResignation, jobMessages }) {
   const job = character?.job;
@@ -24,7 +29,6 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
   const info = getCareerInfo(job.careerId);
   const career = info?.career;
   const nextLevel = career?.levels.find(l => l.level === job.level + 1);
-  const currentLevel = career?.levels.find(l => l.level === job.level);
 
   return (
     <div className="panel job-panel">
@@ -32,7 +36,6 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
         <h2>职业</h2>
       </div>
 
-      {/* 当前职业信息 */}
       <div className="job-current">
         <div className="job-current-header">
           <span className="job-current-icon">{career?.icon || '💼'}</span>
@@ -48,7 +51,7 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
         <div className="job-details">
           <div className="job-detail-item">
             <span className="job-detail-label">月薪</span>
-            <span className="job-detail-value income">¥{job.salary}</span>
+            <span className="job-detail-value income">¥{job.salary.toLocaleString()}</span>
           </div>
           <div className="job-detail-item">
             <span className="job-detail-label">本月已工作</span>
@@ -60,7 +63,6 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
           </div>
         </div>
 
-        {/* 辞职中状态 */}
         {job.isResigning && (
           <div className="job-resigning">
             <div className="job-resigning-icon">📝</div>
@@ -72,23 +74,21 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
         )}
       </div>
 
-      {/* 下一级信息 */}
       {nextLevel && !job.isResigning && (
         <div className="job-next-level">
           <div className="jnl-title">下一级</div>
           <div className="jnl-info">
             <span className="jnl-level">Lv.{nextLevel.level}</span>
             <span className="jnl-name">{nextLevel.title}</span>
-            <span className="jnl-salary">¥{nextLevel.salary}/月</span>
+            <span className="jnl-salary">¥{nextLevel.salary.toLocaleString()}/月</span>
           </div>
           <div className="jnl-reqs">
             {Object.entries(nextLevel.requirements).map(([k, v]) => {
-              const labels = { career: '事业', health: '健康', happiness: '快乐', wealth: '财富' };
               const current = character[k] || 0;
               const met = current >= v;
               return (
                 <span key={k} className={`jnl-req ${met ? 'met' : 'unmet'}`}>
-                  {labels[k] || k}: {current}/{v} {met ? '✓' : '✗'}
+                  {STAT_LABELS[k] || k}: {current}/{v} {met ? '✓' : '✗'}
                 </span>
               );
             })}
@@ -98,12 +98,10 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
 
       {!nextLevel && !job.isResigning && (
         <div className="job-max-level">
-          <span className="jm-max-icon">🏆</span>
-          <span>已达到最高级别！</span>
+          <span>🏆 已达到最高级别！</span>
         </div>
       )}
 
-      {/* 操作按钮 */}
       {!job.isResigning && (
         <div className="job-actions">
           {nextLevel && (
@@ -117,7 +115,6 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
         </div>
       )}
 
-      {/* 职业消息 */}
       {jobMessages && jobMessages.length > 0 && (
         <div className="job-messages">
           {jobMessages.slice(0, 5).map(msg => (
