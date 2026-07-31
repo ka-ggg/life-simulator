@@ -18,16 +18,16 @@ export const WORK_STATS = {
 };
 
 export const WORK_LEVELS = [
-  { level: 1, name: '新手', min: 0, max: 9 },
+  { level: 1, name: '小白', min: 0, max: 9 },
   { level: 2, name: '入门', min: 10, max: 19 },
   { level: 3, name: '初级', min: 20, max: 29 },
   { level: 4, name: '中级', min: 30, max: 39 },
-  { level: 5, name: '熟练', min: 40, max: 49 },
-  { level: 6, name: '精通', min: 50, max: 59 },
-  { level: 7, name: '专家', min: 60, max: 69 },
-  { level: 8, name: '大师', min: 70, max: 79 },
-  { level: 9, name: '宗师', min: 80, max: 89 },
-  { level: 10, name: '传说', min: 90, max: 100 },
+  { level: 5, name: '高级', min: 40, max: 49 },
+  { level: 6, name: '资深', min: 50, max: 59 },
+  { level: 7, name: '精通', min: 60, max: 69 },
+  { level: 8, name: '专家', min: 70, max: 79 },
+  { level: 9, name: '权威', min: 80, max: 89 },
+  { level: 10, name: '顶尖', min: 90, max: 100 },
 ];
 export function getWorkLevel(value) { return WORK_LEVELS.find(l => value >= l.min && value <= l.max) || WORK_LEVELS[0]; }
 

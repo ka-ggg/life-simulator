@@ -814,15 +814,228 @@ body {
 .age-label { font-size: 10px; color: var(--text-muted); }
 .age-value { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-bright); }
 
-/* ===== Responsive ===== */
+/* ===== Responsive — Mobile Adaptation ===== */
+
+/* Tablet (≤1024px) */
 @media (max-width: 1024px) {
-  .game-main { grid-template-columns: 230px 1fr 270px; }
+  .game-main { grid-template-columns: 220px 1fr 260px; }
+  .game-left, .game-center, .game-right { padding: 8px; gap: 6px; }
+  .panel { padding: 10px; }
+  .action-grid { grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+  .action-btn { padding: 7px 3px; }
+  .action-icon { font-size: 18px; }
+  .action-name { font-size: 10px; }
+  .game-header { padding: 6px 16px; }
+  .header-logo { font-size: 17px; }
+  .header-title { font-size: 13px; }
 }
+
+/* Small Tablet / Large Phone (≤768px) */
 @media (max-width: 768px) {
-  .game-main { grid-template-columns: 1fr; overflow-y: auto; }
-  .game-left { order: 1; border-right: none; border-bottom: 1px solid var(--border-dark); }
-  .game-center { order: 2; }
-  .game-right { order: 3; border-left: none; border-top: 1px solid var(--border-dark); }
-  .action-grid { grid-template-columns: repeat(3, 1fr); }
-  .creation-modal { padding: 24px; }
+  html, body, #root { overflow: auto; }
+  .app { overflow: auto; }
+  .game-container { height: auto; min-height: 100vh; overflow: visible; }
+
+  /* Header */
+  .game-header {
+    padding: 8px 14px; position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(12px); background: rgba(17,22,30,0.95);
+    border-bottom: 1px solid var(--border-mid);
+  }
+  .header-logo { font-size: 16px; }
+  .header-title { display: none; }
+  .header-stats { gap: 10px; }
+  .header-age { font-size: 13px; }
+  .header-stage { font-size: 10px; padding: 3px 10px; }
+
+  /* Main layout — single column */
+  .game-main {
+    grid-template-columns: 1fr; gap: 0; overflow: visible;
+    padding: 0; display: flex; flex-direction: column;
+  }
+  .game-left {
+    order: 1; border-right: none; border-bottom: 1px solid var(--border-dark);
+    padding: 8px; gap: 6px;
+  }
+  .game-center {
+    order: 2; padding: 8px; gap: 6px;
+  }
+  .game-right {
+    order: 3; border-left: none; border-top: 1px solid var(--border-dark);
+    padding: 8px; gap: 6px;
+  }
+
+  /* Panels */
+  .panel { padding: 10px; border-radius: var(--radius); }
+
+  /* Character panel — compact horizontal */
+  .char-panel { flex-direction: row; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .char-panel .panel-header { width: 100%; margin-bottom: 0; }
+  .char-avatar { width: 48px; height: 48px; }
+  .char-avatar-inner { font-size: 22px; }
+  .char-name { font-size: 14px; }
+  .char-info { font-size: 10px; }
+  .char-stage-badge { font-size: 9px; }
+
+  /* Action grid */
+  .action-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .action-btn { padding: 10px 4px; min-height: 54px; }
+  .action-icon { font-size: 20px; }
+  .action-name { font-size: 11px; }
+  .effect-tag { font-size: 8px; padding: 1px 3px; }
+
+  /* Stats */
+  .stat-label { font-size: 10px; }
+  .stat-value { font-size: 10px; }
+  .stat-bar-track { height: 5px; }
+  .work-level-row { padding: 5px 6px; gap: 6px; }
+  .work-level-icon { font-size: 12px; }
+  .work-level-name { font-size: 10px; }
+  .work-level-badge { padding: 3px 7px; }
+  .work-level-lv { font-size: 12px; }
+  .work-level-title { font-size: 7px; }
+
+  /* Job panel */
+  .job-current-title { font-size: 12px; }
+  .job-current-career { font-size: 9px; }
+  .job-btn { padding: 8px; font-size: 12px; min-height: 40px; }
+  .job-messages { max-height: 80px; }
+  .job-msg { font-size: 9px; }
+
+  /* Event log */
+  .event-log-item { padding: 4px 6px; font-size: 10px; }
+  .event-log-icon { font-size: 11px; }
+
+  /* Age display */
+  .age-display { padding: 4px; }
+  .age-label { font-size: 9px; }
+  .age-value { font-size: 12px; }
+
+  /* Modals */
+  .event-modal { padding: 22px 18px; width: 92vw; max-width: 92vw; }
+  .event-modal-title { font-size: 16px; }
+  .event-modal-description { font-size: 12px; max-width: 100%; }
+  .event-modal-icon { font-size: 32px; }
+  .event-choice-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+  .creation-modal { padding: 20px 16px; width: 92vw; max-width: 92vw; }
+  .creation-title { font-size: 20px; margin-bottom: 16px; }
+  .form-input { padding: 10px 12px; font-size: 14px; }
+  .trait-grid { grid-template-columns: 1fr; gap: 4px; }
+  .trait-card { padding: 8px; flex-direction: row; gap: 8px; }
+  .trait-icon { font-size: 18px; }
+  .trait-name { font-size: 11px; }
+  .trait-desc { font-size: 9px; text-align: left; }
+  .start-btn { padding: 12px; font-size: 15px; min-height: 48px; }
+
+  .job-market-modal { width: 92vw; max-width: 92vw; max-height: 90vh; }
+  .jm-careers-list { padding: 8px 10px; gap: 8px; }
+  .jm-career-card { padding: 10px; }
+  .jm-career-name { font-size: 13px; }
+  .jm-career-desc { font-size: 9px; }
+  .jm-career-icon { font-size: 20px; }
+  .jm-levels { gap: 2px; }
+  .jm-level-item { min-width: 100px; padding: 5px; }
+  .jm-level-title { font-size: 9px; }
+  .jm-level-salary { font-size: 9px; }
+  .jm-categories { padding: 8px 10px; gap: 2px; }
+  .jm-cat-btn { padding: 4px 8px; font-size: 10px; }
+  .jm-category-desc { padding: 6px 10px; font-size: 10px; }
+  .jm-header { padding: 10px 14px; }
+  .jm-title { font-size: 14px; }
+
+  .summary-modal { padding: 24px 16px; width: 92vw; max-width: 92vw; }
+  .summary-grade { font-size: 44px; }
+  .summary-title { font-size: 18px; }
+  .summary-description { font-size: 12px; }
+  .summary-stats-grid { grid-template-columns: 1fr; }
+  .restart-btn { padding: 12px 24px; font-size: 14px; min-height: 48px; }
+}
+
+/* Phone (≤480px) */
+@media (max-width: 480px) {
+  .game-header { padding: 6px 10px; }
+  .header-logo { font-size: 14px; }
+  .header-age { font-size: 12px; }
+  .header-stage { font-size: 9px; padding: 2px 8px; }
+
+  .game-left, .game-center, .game-right { padding: 6px; gap: 5px; }
+  .panel { padding: 8px; }
+
+  /* Action grid — 3 columns for phones */
+  .action-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .action-btn { padding: 8px 2px; min-height: 50px; }
+  .action-icon { font-size: 18px; }
+  .action-name { font-size: 10px; }
+  .action-effects { gap: 1px; }
+  .effect-tag { font-size: 7px; padding: 1px 2px; }
+
+  /* Character */
+  .char-avatar { width: 40px; height: 40px; }
+  .char-avatar-inner { font-size: 18px; }
+  .char-name { font-size: 13px; }
+
+  /* Stats */
+  .stat-label { font-size: 9px; }
+  .stat-value { font-size: 9px; }
+  .stat-bar-track { height: 4px; }
+  .stats-section-title { font-size: 8px; margin: 8px 0 4px; }
+  .work-level-row { padding: 4px 5px; gap: 4px; }
+  .work-level-icon { font-size: 11px; }
+  .work-level-name { font-size: 9px; }
+  .work-level-lv { font-size: 11px; }
+  .work-level-title { font-size: 7px; }
+
+  /* Job */
+  .job-current { padding: 8px; }
+  .job-current-title { font-size: 11px; }
+  .job-current-icon { font-size: 18px; }
+  .job-detail-label { font-size: 9px; }
+  .job-detail-value { font-size: 10px; }
+  .job-btn { padding: 7px; font-size: 11px; min-height: 38px; }
+
+  /* Event log */
+  .event-log-item { padding: 3px 5px; font-size: 9px; }
+  .event-log-icon { font-size: 10px; }
+
+  /* Modals */
+  .event-modal { padding: 18px 14px; }
+  .event-modal-title { font-size: 15px; }
+  .event-modal-description { font-size: 11px; }
+  .event-modal-icon { font-size: 28px; }
+  .event-choice-btn { padding: 9px 10px; font-size: 11px; min-height: 42px; }
+  .event-modal-actions { flex-direction: column; gap: 6px; }
+  .choice-effects-group { padding: 5px 8px; }
+  .choice-label { font-size: 11px; min-width: 60px; }
+
+  .creation-modal { padding: 16px 12px; }
+  .creation-title { font-size: 18px; margin-bottom: 12px; }
+  .form-input { padding: 8px 10px; font-size: 13px; }
+  .form-label { font-size: 9px; }
+  .gender-btn { padding: 8px; font-size: 12px; }
+  .trait-card { padding: 7px; }
+  .trait-icon { font-size: 16px; }
+  .trait-name { font-size: 10px; }
+  .trait-desc { font-size: 8px; }
+  .start-btn { padding: 10px; font-size: 14px; min-height: 44px; }
+
+  .job-market-modal { width: 95vw; max-width: 95vw; max-height: 92vh; }
+  .jm-careers-list { padding: 6px 8px; gap: 6px; }
+  .jm-career-card { padding: 8px; }
+  .jm-career-name { font-size: 12px; }
+  .jm-level-item { min-width: 85px; padding: 4px; }
+  .jm-level-num { font-size: 8px; }
+  .jm-level-title { font-size: 8px; }
+  .jm-level-salary { font-size: 8px; }
+  .jm-req-tag { font-size: 7px; }
+  .jm-apply-btn { padding: 4px 10px; font-size: 10px; }
+  .jm-cat-btn { padding: 3px 7px; font-size: 9px; }
+  .jm-cat-icon { font-size: 10px; }
+
+  .summary-modal { padding: 20px 12px; }
+  .summary-grade { font-size: 36px; }
+  .summary-title { font-size: 16px; }
+  .summary-description { font-size: 11px; }
+  .summary-stats { padding: 10px; }
+  .restart-btn { padding: 10px 20px; font-size: 13px; min-height: 44px; }
 }
