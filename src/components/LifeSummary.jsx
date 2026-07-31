@@ -1,4 +1,4 @@
-import { NORMAL_STATS, WORK_STATS } from '../data/gameData';
+import { NORMAL_STATS, WORK_STATS, getWorkLevel } from '../data/gameData';
 
 export default function LifeSummary({ character, ending, onRestart }) {
   const normalEntries = Object.entries(NORMAL_STATS).map(([key, info]) => ({
@@ -8,12 +8,15 @@ export default function LifeSummary({ character, ending, onRestart }) {
     max: 100,
   }));
 
-  const workEntries = Object.entries(WORK_STATS).map(([key, info]) => ({
-    label: info.name,
-    icon: info.icon,
-    value: character[key] || 0,
-    max: 100,
-  }));
+  const workEntries = Object.entries(WORK_STATS).map(([key, info]) => {
+    const lv = getWorkLevel(character[key] || 0);
+    return {
+      label: info.name,
+      icon: info.icon,
+      value: `Lv.${lv.level} ${lv.name}`,
+      format: 'level',
+    };
+  });
 
   const allStats = [
     ...normalEntries,
@@ -46,6 +49,8 @@ export default function LifeSummary({ character, ending, onRestart }) {
                   <span className="summary-stat-value">
                     {stat.format === 'money'
                       ? `¥${stat.value.toLocaleString()}`
+                      : stat.format === 'level'
+                      ? stat.value
                       : `${stat.value}${stat.max ? `/${stat.max}` : ''}`}
                   </span>
                 </div>

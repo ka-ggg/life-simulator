@@ -1,6 +1,8 @@
 // ===== 职业系统数据 v2 =====
 // 薪资参考 2025-2026 中国市场真实数据（一线城市）
 
+import { getWorkLevel } from './gameData';
+
 export const CAREER_CATEGORIES = [
   {
     id: 'computer',
@@ -15,12 +17,12 @@ export const CAREER_CATEGORIES = [
         icon: '🎨',
         description: '负责网页和移动端用户界面的设计与开发',
         levels: [
-          { level: 1, title: '初级前端开发', salary: 10000, requirements: { research: 10 } },
-          { level: 2, title: '中级前端开发', salary: 20000, requirements: { research: 25 } },
-          { level: 3, title: '高级前端开发', salary: 32000, requirements: { research: 45 } },
-          { level: 4, title: '前端架构师', salary: 50000, requirements: { research: 65 } },
-          { level: 5, title: '前端技术专家', salary: 70000, requirements: { research: 80 } },
-          { level: 6, title: '前端技术总监', salary: 90000, requirements: { research: 95 } },
+          { level: 1, title: '初级前端开发', salary: 10000, requirements: { research: 2 } },
+          { level: 2, title: '中级前端开发', salary: 20000, requirements: { research: 3 } },
+          { level: 3, title: '高级前端开发', salary: 32000, requirements: { research: 5 } },
+          { level: 4, title: '前端架构师', salary: 50000, requirements: { research: 7 } },
+          { level: 5, title: '前端技术专家', salary: 70000, requirements: { research: 9 } },
+          { level: 6, title: '前端技术总监', salary: 90000, requirements: { research: 10 } },
         ]
       },
       {
@@ -29,12 +31,12 @@ export const CAREER_CATEGORIES = [
         icon: '⚙️',
         description: '负责服务器端逻辑、数据库与API开发',
         levels: [
-          { level: 1, title: '初级后端开发', salary: 14000, requirements: { research: 14 } },
-          { level: 2, title: '中级后端开发', salary: 24000, requirements: { research: 30 } },
-          { level: 3, title: '高级后端开发', salary: 40000, requirements: { research: 50 } },
-          { level: 4, title: '后端架构师', salary: 65000, requirements: { research: 70 } },
-          { level: 5, title: '后端技术专家', salary: 95000, requirements: { research: 85 } },
-          { level: 6, title: '后端技术总监', salary: 150000, requirements: { research: 95 } },
+          { level: 1, title: '初级后端开发', salary: 14000, requirements: { research: 2 } },
+          { level: 2, title: '中级后端开发', salary: 24000, requirements: { research: 4 } },
+          { level: 3, title: '高级后端开发', salary: 40000, requirements: { research: 6 } },
+          { level: 4, title: '后端架构师', salary: 65000, requirements: { research: 8 } },
+          { level: 5, title: '后端技术专家', salary: 95000, requirements: { research: 9 } },
+          { level: 6, title: '后端技术总监', salary: 150000, requirements: { research: 10 } },
         ]
       },
       {
@@ -43,12 +45,12 @@ export const CAREER_CATEGORIES = [
         icon: '🔧',
         description: '同时掌握前端与后端技术的全能型开发者',
         levels: [
-          { level: 1, title: '初级全栈开发', salary: 14000, requirements: { research: 18 } },
-          { level: 2, title: '中级全栈开发', salary: 25000, requirements: { research: 35 } },
-          { level: 3, title: '高级全栈开发', salary: 43000, requirements: { research: 55 } },
-          { level: 4, title: '全栈架构师', salary: 70000, requirements: { research: 75 } },
-          { level: 5, title: '全栈技术专家', salary: 100000, requirements: { research: 88 } },
-          { level: 6, title: '全栈技术总监', salary: 150000, requirements: { research: 98 } },
+          { level: 1, title: '初级全栈开发', salary: 14000, requirements: { research: 2 } },
+          { level: 2, title: '中级全栈开发', salary: 25000, requirements: { research: 4 } },
+          { level: 3, title: '高级全栈开发', salary: 43000, requirements: { research: 6 } },
+          { level: 4, title: '全栈架构师', salary: 70000, requirements: { research: 8 } },
+          { level: 5, title: '全栈技术专家', salary: 100000, requirements: { research: 9 } },
+          { level: 6, title: '全栈技术总监', salary: 150000, requirements: { research: 10 } },
         ]
       },
       {
@@ -57,12 +59,12 @@ export const CAREER_CATEGORIES = [
         icon: '🤖',
         description: '从事大语言模型训练、微调与AI应用开发',
         levels: [
-          { level: 1, title: 'AI助理工程师', salary: 32000, requirements: { research: 25 } },
-          { level: 2, title: 'AI开发工程师', salary: 55000, requirements: { research: 45 } },
-          { level: 3, title: '高级AI工程师', salary: 95000, requirements: { research: 65 } },
-          { level: 4, title: 'AI研究科学家', salary: 140000, requirements: { research: 82 } },
-          { level: 5, title: 'AI技术专家', salary: 180000, requirements: { research: 92 } },
-          { level: 6, title: 'AI首席科学家', salary: 250000, requirements: { research: 98 } },
+          { level: 1, title: 'AI助理工程师', salary: 32000, requirements: { research: 3 } },
+          { level: 2, title: 'AI开发工程师', salary: 55000, requirements: { research: 5 } },
+          { level: 3, title: '高级AI工程师', salary: 95000, requirements: { research: 7 } },
+          { level: 4, title: 'AI研究科学家', salary: 140000, requirements: { research: 9 } },
+          { level: 5, title: 'AI技术专家', salary: 180000, requirements: { research: 10 } },
+          { level: 6, title: 'AI首席科学家', salary: 250000, requirements: { research: 10 } },
         ]
       },
       {
@@ -71,12 +73,12 @@ export const CAREER_CATEGORIES = [
         icon: '📊',
         description: '设计优化算法，解决复杂计算问题',
         levels: [
-          { level: 1, title: '初级算法工程师', salary: 28000, requirements: { research: 22 } },
-          { level: 2, title: '中级算法工程师', salary: 48000, requirements: { research: 40 } },
-          { level: 3, title: '高级算法工程师', salary: 80000, requirements: { research: 60 } },
-          { level: 4, title: '算法专家', salary: 130000, requirements: { research: 78 } },
-          { level: 5, title: '高级算法专家', salary: 170000, requirements: { research: 90 } },
-          { level: 6, title: '首席算法科学家', salary: 220000, requirements: { research: 98 } },
+          { level: 1, title: '初级算法工程师', salary: 28000, requirements: { research: 3 } },
+          { level: 2, title: '中级算法工程师', salary: 48000, requirements: { research: 5 } },
+          { level: 3, title: '高级算法工程师', salary: 80000, requirements: { research: 7 } },
+          { level: 4, title: '算法专家', salary: 130000, requirements: { research: 8 } },
+          { level: 5, title: '高级算法专家', salary: 170000, requirements: { research: 10 } },
+          { level: 6, title: '首席算法科学家', salary: 220000, requirements: { research: 10 } },
         ]
       },
       {
@@ -85,12 +87,12 @@ export const CAREER_CATEGORIES = [
         icon: '🛡️',
         description: '保障系统安全，防御网络攻击与数据泄露',
         levels: [
-          { level: 1, title: '初级安全工程师', salary: 14000, requirements: { research: 16 } },
-          { level: 2, title: '中级安全工程师', salary: 24000, requirements: { research: 34 } },
-          { level: 3, title: '高级安全工程师', salary: 40000, requirements: { research: 54 } },
-          { level: 4, title: '安全架构师', salary: 65000, requirements: { research: 74 } },
-          { level: 5, title: '安全技术专家', salary: 85000, requirements: { research: 88 } },
-          { level: 6, title: '首席安全官', salary: 120000, requirements: { research: 95 } },
+          { level: 1, title: '初级安全工程师', salary: 14000, requirements: { research: 2 } },
+          { level: 2, title: '中级安全工程师', salary: 24000, requirements: { research: 4 } },
+          { level: 3, title: '高级安全工程师', salary: 40000, requirements: { research: 6 } },
+          { level: 4, title: '安全架构师', salary: 65000, requirements: { research: 8 } },
+          { level: 5, title: '安全技术专家', salary: 85000, requirements: { research: 9 } },
+          { level: 6, title: '首席安全官', salary: 120000, requirements: { research: 10 } },
         ]
       },
     ]
@@ -108,12 +110,12 @@ export const CAREER_CATEGORIES = [
         icon: '🍎',
         description: '在小学任教，帮助孩子们打好基础',
         levels: [
-          { level: 1, title: '实习教师', salary: 3000, requirements: { research: 8 } },
-          { level: 2, title: '正式教师', salary: 4000, requirements: { research: 20 } },
-          { level: 3, title: '骨干教师', salary: 5800, requirements: { research: 35 } },
-          { level: 4, title: '学科带头人', salary: 7500, requirements: { research: 50 } },
-          { level: 5, title: '教研组长', salary: 10000, requirements: { research: 65 } },
-          { level: 6, title: '副校长', salary: 13000, requirements: { research: 80 } },
+          { level: 1, title: '实习教师', salary: 3000, requirements: { research: 1 } },
+          { level: 2, title: '正式教师', salary: 4000, requirements: { research: 3 } },
+          { level: 3, title: '骨干教师', salary: 5800, requirements: { research: 4 } },
+          { level: 4, title: '学科带头人', salary: 7500, requirements: { research: 6 } },
+          { level: 5, title: '教研组长', salary: 10000, requirements: { research: 7 } },
+          { level: 6, title: '副校长', salary: 13000, requirements: { research: 9 } },
         ]
       },
       {
@@ -122,12 +124,12 @@ export const CAREER_CATEGORIES = [
         icon: '🏫',
         description: '在中学任教，辅导学生冲刺升学',
         levels: [
-          { level: 1, title: '实习教师', salary: 3500, requirements: { research: 12 } },
-          { level: 2, title: '正式教师', salary: 4500, requirements: { research: 25 } },
-          { level: 3, title: '骨干教师', salary: 6500, requirements: { research: 40 } },
-          { level: 4, title: '年级主任', salary: 8500, requirements: { research: 55 } },
-          { level: 5, title: '教务主任', salary: 11000, requirements: { research: 70 } },
-          { level: 6, title: '校长', salary: 16000, requirements: { research: 85 } },
+          { level: 1, title: '实习教师', salary: 3500, requirements: { research: 2 } },
+          { level: 2, title: '正式教师', salary: 4500, requirements: { research: 3 } },
+          { level: 3, title: '骨干教师', salary: 6500, requirements: { research: 5 } },
+          { level: 4, title: '年级主任', salary: 8500, requirements: { research: 6 } },
+          { level: 5, title: '教务主任', salary: 11000, requirements: { research: 8 } },
+          { level: 6, title: '校长', salary: 16000, requirements: { research: 9 } },
         ]
       },
       {
@@ -136,12 +138,12 @@ export const CAREER_CATEGORIES = [
         icon: '🎓',
         description: '在高校从事教学与科研工作',
         levels: [
-          { level: 1, title: '助教', salary: 5500, requirements: { research: 20 } },
-          { level: 2, title: '讲师', salary: 7000, requirements: { research: 35 } },
-          { level: 3, title: '副教授', salary: 12000, requirements: { research: 52 } },
-          { level: 4, title: '教授', salary: 18000, requirements: { research: 70 } },
-          { level: 5, title: '学科带头人', salary: 35000, requirements: { research: 85 } },
-          { level: 6, title: '院士', salary: 70000, requirements: { research: 95 } },
+          { level: 1, title: '助教', salary: 5500, requirements: { research: 3 } },
+          { level: 2, title: '讲师', salary: 7000, requirements: { research: 4 } },
+          { level: 3, title: '副教授', salary: 12000, requirements: { research: 6 } },
+          { level: 4, title: '教授', salary: 18000, requirements: { research: 8 } },
+          { level: 5, title: '学科带头人', salary: 35000, requirements: { research: 9 } },
+          { level: 6, title: '院士', salary: 70000, requirements: { research: 10 } },
         ]
       },
       {
@@ -150,12 +152,12 @@ export const CAREER_CATEGORIES = [
         icon: '🎤',
         description: '在培训机构或企业进行专业技能培训',
         levels: [
-          { level: 1, title: '助理讲师', salary: 6500, requirements: { research: 12 } },
-          { level: 2, title: '初级讲师', salary: 12000, requirements: { research: 28 } },
-          { level: 3, title: '高级讲师', salary: 20000, requirements: { research: 48 } },
-          { level: 4, title: '金牌讲师', salary: 32000, requirements: { research: 65 } },
-          { level: 5, title: '培训总监', salary: 50000, requirements: { research: 80 } },
-          { level: 6, title: '首席培训官', salary: 80000, requirements: { research: 90 } },
+          { level: 1, title: '助理讲师', salary: 6500, requirements: { research: 2 } },
+          { level: 2, title: '初级讲师', salary: 12000, requirements: { research: 3 } },
+          { level: 3, title: '高级讲师', salary: 20000, requirements: { research: 5 } },
+          { level: 4, title: '金牌讲师', salary: 32000, requirements: { research: 7 } },
+          { level: 5, title: '培训总监', salary: 50000, requirements: { research: 9 } },
+          { level: 6, title: '首席培训官', salary: 80000, requirements: { research: 10 } },
         ]
       },
     ]
@@ -173,12 +175,12 @@ export const CAREER_CATEGORIES = [
         icon: '🏠',
         description: '为客户匹配理想居所，促成房产交易',
         levels: [
-          { level: 1, title: '房产经纪人', salary: 5000, requirements: { sales: 5 } },
-          { level: 2, title: '高级经纪人', salary: 9000, requirements: { sales: 22 } },
-          { level: 3, title: '销售主管', salary: 15000, requirements: { sales: 42 } },
-          { level: 4, title: '区域经理', salary: 30000, requirements: { sales: 62 } },
-          { level: 5, title: '销售总监', salary: 40000, requirements: { sales: 80 } },
-          { level: 6, title: '副总裁', salary: 75000, requirements: { sales: 92 } },
+          { level: 1, title: '房产经纪人', salary: 5000, requirements: { sales: 1 } },
+          { level: 2, title: '高级经纪人', salary: 9000, requirements: { sales: 3 } },
+          { level: 3, title: '销售主管', salary: 15000, requirements: { sales: 5 } },
+          { level: 4, title: '区域经理', salary: 30000, requirements: { sales: 7 } },
+          { level: 5, title: '销售总监', salary: 40000, requirements: { sales: 9 } },
+          { level: 6, title: '副总裁', salary: 75000, requirements: { sales: 10 } },
         ]
       },
       {
@@ -187,12 +189,12 @@ export const CAREER_CATEGORIES = [
         icon: '🚗',
         description: '为客户推荐最佳座驾，完成车辆销售',
         levels: [
-          { level: 1, title: '销售顾问', salary: 5500, requirements: { sales: 8 } },
-          { level: 2, title: '资深销售顾问', salary: 9500, requirements: { sales: 25 } },
-          { level: 3, title: '展厅经理', salary: 16000, requirements: { sales: 45 } },
-          { level: 4, title: '销售经理', salary: 24000, requirements: { sales: 65 } },
-          { level: 5, title: '区域总监', salary: 32000, requirements: { sales: 82 } },
-          { level: 6, title: '总经理', salary: 60000, requirements: { sales: 92 } },
+          { level: 1, title: '销售顾问', salary: 5500, requirements: { sales: 1 } },
+          { level: 2, title: '资深销售顾问', salary: 9500, requirements: { sales: 3 } },
+          { level: 3, title: '展厅经理', salary: 16000, requirements: { sales: 5 } },
+          { level: 4, title: '销售经理', salary: 24000, requirements: { sales: 7 } },
+          { level: 5, title: '区域总监', salary: 32000, requirements: { sales: 9 } },
+          { level: 6, title: '总经理', salary: 60000, requirements: { sales: 10 } },
         ]
       },
       {
@@ -201,12 +203,12 @@ export const CAREER_CATEGORIES = [
         icon: '📦',
         description: '运营线上店铺，打造爆款商品',
         levels: [
-          { level: 1, title: '运营助理', salary: 5000, requirements: { sales: 10 } },
-          { level: 2, title: '运营专员', salary: 8000, requirements: { sales: 28 } },
-          { level: 3, title: '高级运营', salary: 14000, requirements: { sales: 48 } },
-          { level: 4, title: '运营经理', salary: 24000, requirements: { sales: 68 } },
-          { level: 5, title: '运营总监', salary: 32000, requirements: { sales: 84 } },
-          { level: 6, title: '电商副总', salary: 60000, requirements: { sales: 93 } },
+          { level: 1, title: '运营助理', salary: 5000, requirements: { sales: 2 } },
+          { level: 2, title: '运营专员', salary: 8000, requirements: { sales: 3 } },
+          { level: 3, title: '高级运营', salary: 14000, requirements: { sales: 5 } },
+          { level: 4, title: '运营经理', salary: 24000, requirements: { sales: 7 } },
+          { level: 5, title: '运营总监', salary: 32000, requirements: { sales: 9 } },
+          { level: 6, title: '电商副总', salary: 60000, requirements: { sales: 10 } },
         ]
       },
       {
@@ -215,12 +217,12 @@ export const CAREER_CATEGORIES = [
         icon: '🔐',
         description: '为客户规划保障方案，销售保险产品',
         levels: [
-          { level: 1, title: '保险代理人', salary: 4500, requirements: { sales: 5 } },
-          { level: 2, title: '高级代理人', salary: 9000, requirements: { sales: 22 } },
-          { level: 3, title: '业务经理', salary: 18000, requirements: { sales: 42 } },
-          { level: 4, title: '高级业务经理', salary: 38000, requirements: { sales: 62 } },
-          { level: 5, title: '区域总监', salary: 60000, requirements: { sales: 80 } },
-          { level: 6, title: '分公司总经理', salary: 100000, requirements: { sales: 90 } },
+          { level: 1, title: '保险代理人', salary: 4500, requirements: { sales: 1 } },
+          { level: 2, title: '高级代理人', salary: 9000, requirements: { sales: 3 } },
+          { level: 3, title: '业务经理', salary: 18000, requirements: { sales: 5 } },
+          { level: 4, title: '高级业务经理', salary: 38000, requirements: { sales: 7 } },
+          { level: 5, title: '区域总监', salary: 60000, requirements: { sales: 9 } },
+          { level: 6, title: '分公司总经理', salary: 100000, requirements: { sales: 10 } },
         ]
       },
     ]
@@ -238,12 +240,12 @@ export const CAREER_CATEGORIES = [
         icon: '💉',
         description: '在医院提供专业的护理服务',
         levels: [
-          { level: 1, title: '实习护士', salary: 3000, requirements: { research: 10 } },
-          { level: 2, title: '注册护士', salary: 6500, requirements: { research: 28 } },
-          { level: 3, title: '主管护师', salary: 8500, requirements: { research: 48 } },
-          { level: 4, title: '副主任护师', salary: 11000, requirements: { research: 65 } },
-          { level: 5, title: '主任护师', salary: 15000, requirements: { research: 80 } },
-          { level: 6, title: '护理部主任', salary: 20000, requirements: { research: 90 } },
+          { level: 1, title: '实习护士', salary: 3000, requirements: { research: 2 } },
+          { level: 2, title: '注册护士', salary: 6500, requirements: { research: 3 } },
+          { level: 3, title: '主管护师', salary: 8500, requirements: { research: 5 } },
+          { level: 4, title: '副主任护师', salary: 11000, requirements: { research: 7 } },
+          { level: 5, title: '主任护师', salary: 15000, requirements: { research: 9 } },
+          { level: 6, title: '护理部主任', salary: 20000, requirements: { research: 10 } },
         ]
       },
       {
@@ -252,12 +254,12 @@ export const CAREER_CATEGORIES = [
         icon: '🩺',
         description: '在医疗机构诊断治疗疾病',
         levels: [
-          { level: 1, title: '住院医师', salary: 9000, requirements: { research: 22 } },
-          { level: 2, title: '主治医师', salary: 16000, requirements: { research: 42 } },
-          { level: 3, title: '副主任医师', salary: 28000, requirements: { research: 62 } },
-          { level: 4, title: '主任医师', salary: 40000, requirements: { research: 78 } },
-          { level: 5, title: '科室主任', salary: 55000, requirements: { research: 88 } },
-          { level: 6, title: '副院长', salary: 75000, requirements: { research: 95 } },
+          { level: 1, title: '住院医师', salary: 9000, requirements: { research: 3 } },
+          { level: 2, title: '主治医师', salary: 16000, requirements: { research: 5 } },
+          { level: 3, title: '副主任医师', salary: 28000, requirements: { research: 7 } },
+          { level: 4, title: '主任医师', salary: 40000, requirements: { research: 8 } },
+          { level: 5, title: '科室主任', salary: 55000, requirements: { research: 9 } },
+          { level: 6, title: '副院长', salary: 75000, requirements: { research: 10 } },
         ]
       },
       {
@@ -266,12 +268,12 @@ export const CAREER_CATEGORIES = [
         icon: '💊',
         description: '在医院或药房负责药品管理与配发',
         levels: [
-          { level: 1, title: '初级药师', salary: 6000, requirements: { research: 16 } },
-          { level: 2, title: '中级药师', salary: 8500, requirements: { research: 34 } },
-          { level: 3, title: '主管药师', salary: 12000, requirements: { research: 54 } },
-          { level: 4, title: '副主任药师', salary: 17000, requirements: { research: 72 } },
-          { level: 5, title: '主任药师', salary: 22000, requirements: { research: 86 } },
-          { level: 6, title: '药学部主任', salary: 28000, requirements: { research: 94 } },
+          { level: 1, title: '初级药师', salary: 6000, requirements: { research: 2 } },
+          { level: 2, title: '中级药师', salary: 8500, requirements: { research: 4 } },
+          { level: 3, title: '主管药师', salary: 12000, requirements: { research: 6 } },
+          { level: 4, title: '副主任药师', salary: 17000, requirements: { research: 8 } },
+          { level: 5, title: '主任药师', salary: 22000, requirements: { research: 9 } },
+          { level: 6, title: '药学部主任', salary: 28000, requirements: { research: 10 } },
         ]
       },
     ]
@@ -289,12 +291,12 @@ export const CAREER_CATEGORIES = [
         icon: '🏦',
         description: '在银行从事柜台业务与客户服务',
         levels: [
-          { level: 1, title: '柜员', salary: 6500, requirements: { finance: 10 } },
-          { level: 2, title: '高级柜员', salary: 12000, requirements: { finance: 28 } },
-          { level: 3, title: '客户经理', salary: 20000, requirements: { finance: 48 } },
-          { level: 4, title: '支行副行长', salary: 32000, requirements: { finance: 65 } },
-          { level: 5, title: '支行行长', salary: 55000, requirements: { finance: 82 } },
-          { level: 6, title: '分行副行长', salary: 100000, requirements: { finance: 92 } },
+          { level: 1, title: '柜员', salary: 6500, requirements: { finance: 2 } },
+          { level: 2, title: '高级柜员', salary: 12000, requirements: { finance: 3 } },
+          { level: 3, title: '客户经理', salary: 20000, requirements: { finance: 5 } },
+          { level: 4, title: '支行副行长', salary: 32000, requirements: { finance: 7 } },
+          { level: 5, title: '支行行长', salary: 55000, requirements: { finance: 9 } },
+          { level: 6, title: '分行副行长', salary: 100000, requirements: { finance: 10 } },
         ]
       },
       {
@@ -303,12 +305,12 @@ export const CAREER_CATEGORIES = [
         icon: '📈',
         description: '为客户提供专业的投资建议与资产配置',
         levels: [
-          { level: 1, title: '助理顾问', salary: 8000, requirements: { finance: 18 } },
-          { level: 2, title: '投资顾问', salary: 14000, requirements: { finance: 35 } },
-          { level: 3, title: '高级投资顾问', salary: 24000, requirements: { finance: 55 } },
-          { level: 4, title: '投资经理', salary: 40000, requirements: { finance: 72 } },
-          { level: 5, title: '投资总监', salary: 75000, requirements: { finance: 86 } },
-          { level: 6, title: '首席投资官', salary: 150000, requirements: { finance: 95 } },
+          { level: 1, title: '助理顾问', salary: 8000, requirements: { finance: 2 } },
+          { level: 2, title: '投资顾问', salary: 14000, requirements: { finance: 4 } },
+          { level: 3, title: '高级投资顾问', salary: 24000, requirements: { finance: 6 } },
+          { level: 4, title: '投资经理', salary: 40000, requirements: { finance: 8 } },
+          { level: 5, title: '投资总监', salary: 75000, requirements: { finance: 9 } },
+          { level: 6, title: '首席投资官', salary: 150000, requirements: { finance: 10 } },
         ]
       },
       {
@@ -317,12 +319,12 @@ export const CAREER_CATEGORIES = [
         icon: '🧮',
         description: '负责企业财务核算与税务筹划',
         levels: [
-          { level: 1, title: '初级会计', salary: 9000, requirements: { finance: 14 } },
-          { level: 2, title: '中级会计', salary: 15000, requirements: { finance: 32 } },
-          { level: 3, title: '高级会计', salary: 30000, requirements: { finance: 52 } },
-          { level: 4, title: '财务经理', salary: 50000, requirements: { finance: 72 } },
-          { level: 5, title: '财务总监', salary: 65000, requirements: { finance: 86 } },
-          { level: 6, title: '首席财务官', salary: 120000, requirements: { finance: 95 } },
+          { level: 1, title: '初级会计', salary: 9000, requirements: { finance: 2 } },
+          { level: 2, title: '中级会计', salary: 15000, requirements: { finance: 4 } },
+          { level: 3, title: '高级会计', salary: 30000, requirements: { finance: 6 } },
+          { level: 4, title: '财务经理', salary: 50000, requirements: { finance: 8 } },
+          { level: 5, title: '财务总监', salary: 65000, requirements: { finance: 9 } },
+          { level: 6, title: '首席财务官', salary: 120000, requirements: { finance: 10 } },
         ]
       },
     ]
@@ -340,12 +342,12 @@ export const CAREER_CATEGORIES = [
         icon: '✏️',
         description: '从事平面、UI/UX或品牌视觉设计',
         levels: [
-          { level: 1, title: '初级设计师', salary: 8000, requirements: { creativity: 12 } },
-          { level: 2, title: '中级设计师', salary: 14000, requirements: { creativity: 30 } },
-          { level: 3, title: '高级设计师', salary: 24000, requirements: { creativity: 52 } },
-          { level: 4, title: '设计主管', salary: 35000, requirements: { creativity: 70 } },
-          { level: 5, title: '设计总监', salary: 45000, requirements: { creativity: 85 } },
-          { level: 6, title: '首席创意官', salary: 75000, requirements: { creativity: 94 } },
+          { level: 1, title: '初级设计师', salary: 8000, requirements: { creativity: 2 } },
+          { level: 2, title: '中级设计师', salary: 14000, requirements: { creativity: 4 } },
+          { level: 3, title: '高级设计师', salary: 24000, requirements: { creativity: 6 } },
+          { level: 4, title: '设计主管', salary: 35000, requirements: { creativity: 8 } },
+          { level: 5, title: '设计总监', salary: 45000, requirements: { creativity: 9 } },
+          { level: 6, title: '首席创意官', salary: 75000, requirements: { creativity: 10 } },
         ]
       },
       {
@@ -354,12 +356,12 @@ export const CAREER_CATEGORIES = [
         icon: '✍️',
         description: '创作小说、散文、剧本等文学作品',
         levels: [
-          { level: 1, title: '新人作者', salary: 4000, requirements: { creativity: 10 } },
-          { level: 2, title: '签约作者', salary: 6500, requirements: { creativity: 28 } },
-          { level: 3, title: '畅销作者', salary: 12000, requirements: { creativity: 50 } },
-          { level: 4, title: '知名作家', salary: 22000, requirements: { creativity: 70 } },
-          { level: 5, title: '文学大家', salary: 45000, requirements: { creativity: 85 } },
-          { level: 6, title: '文坛巨匠', salary: 100000, requirements: { creativity: 94 } },
+          { level: 1, title: '新人作者', salary: 4000, requirements: { creativity: 2 } },
+          { level: 2, title: '签约作者', salary: 6500, requirements: { creativity: 3 } },
+          { level: 3, title: '畅销作者', salary: 12000, requirements: { creativity: 6 } },
+          { level: 4, title: '知名作家', salary: 22000, requirements: { creativity: 8 } },
+          { level: 5, title: '文学大家', salary: 45000, requirements: { creativity: 9 } },
+          { level: 6, title: '文坛巨匠', salary: 100000, requirements: { creativity: 10 } },
         ]
       },
       {
@@ -368,12 +370,12 @@ export const CAREER_CATEGORIES = [
         icon: '🎵',
         description: '创作、演奏或制作音乐作品',
         levels: [
-          { level: 1, title: '独立音乐人', salary: 4500, requirements: { creativity: 12 } },
-          { level: 2, title: '签约音乐人', salary: 7500, requirements: { creativity: 30 } },
-          { level: 3, title: '知名音乐人', salary: 15000, requirements: { creativity: 50 } },
-          { level: 4, title: '金牌制作人', salary: 30000, requirements: { creativity: 70 } },
-          { level: 5, title: '音乐总监', salary: 60000, requirements: { creativity: 85 } },
-          { level: 6, title: '音乐教父', salary: 150000, requirements: { creativity: 94 } },
+          { level: 1, title: '独立音乐人', salary: 4500, requirements: { creativity: 2 } },
+          { level: 2, title: '签约音乐人', salary: 7500, requirements: { creativity: 4 } },
+          { level: 3, title: '知名音乐人', salary: 15000, requirements: { creativity: 6 } },
+          { level: 4, title: '金牌制作人', salary: 30000, requirements: { creativity: 8 } },
+          { level: 5, title: '音乐总监', salary: 60000, requirements: { creativity: 9 } },
+          { level: 6, title: '音乐教父', salary: 150000, requirements: { creativity: 10 } },
         ]
       },
     ]
@@ -406,8 +408,9 @@ export function canPromote(character) {
 
 // 检查是否满足入职要求
 export function checkRequirements(character, requirements) {
-  for (const [key, value] of Object.entries(requirements)) {
-    if ((character[key] || 0) < value) return false;
+  for (const [key, reqLevel] of Object.entries(requirements)) {
+    const charLevel = getWorkLevel(character[key] || 0).level;
+    if (charLevel < reqLevel) return false;
   }
   return true;
 }
@@ -416,10 +419,10 @@ export function checkRequirements(character, requirements) {
 export function getMissingRequirements(character, requirements) {
   const missing = [];
   const labels = { research: '研发能力', sales: '口才推销', creativity: '创造能力', finance: '财务管理' };
-  for (const [key, value] of Object.entries(requirements)) {
-    const current = character[key] || 0;
-    if (current < value) {
-      missing.push({ key, label: labels[key] || key, current, required: value });
+  for (const [key, reqLevel] of Object.entries(requirements)) {
+    const charLevel = getWorkLevel(character[key] || 0).level;
+    if (charLevel < reqLevel) {
+      missing.push({ key, label: labels[key] || key, current: charLevel, required: reqLevel });
     }
   }
   return missing;

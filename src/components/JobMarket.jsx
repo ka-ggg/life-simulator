@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CAREER_CATEGORIES, checkRequirements, getMissingRequirements } from '../data/careerData';
-import { WORK_STATS } from '../data/gameData';
+import { WORK_STATS, getWorkLevel } from '../data/gameData';
 
 const STAT_LABELS = Object.fromEntries(
   Object.entries(WORK_STATS).map(([k, v]) => [k, v.name])
@@ -79,9 +79,9 @@ export default function JobMarket({ character, onApply, onClose }) {
                         <div className="jm-level-info">
                           <span className="jm-level-salary">💰 ¥{lv.salary.toLocaleString()}/月</span>
                           <span className="jm-level-reqs">
-                            {Object.entries(lv.requirements).map(([k, v]) => (
+                            {Object.entries(lv.requirements).map(([k, reqLevel]) => (
                               <span key={k} className="jm-req-tag">
-                                {STAT_LABELS[k] || k} ≥ {v}
+                                {STAT_LABELS[k] || k} ≥ Lv.{reqLevel}
                               </span>
                             ))}
                           </span>
@@ -95,7 +95,7 @@ export default function JobMarket({ character, onApply, onClose }) {
                       <span className="jm-missing-label">入职缺少：</span>
                       {missing.map(m => (
                         <span key={m.key} className="jm-missing-tag">
-                          {m.label} {m.current}/{m.required}
+                          {m.label} Lv.{m.current}/Lv.{m.required}
                         </span>
                       ))}
                     </div>

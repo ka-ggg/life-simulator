@@ -1,5 +1,5 @@
 import { getCareerInfo } from '../data/careerData';
-import { WORK_STATS } from '../data/gameData';
+import { WORK_STATS, getWorkLevel } from '../data/gameData';
 
 const STAT_LABELS = Object.fromEntries(
   Object.entries(WORK_STATS).map(([k, v]) => [k, v.name])
@@ -83,12 +83,13 @@ export default function JobPanel({ character, onOpenMarket, onPromote, onStartRe
             <span className="jnl-salary">¥{nextLevel.salary.toLocaleString()}/月</span>
           </div>
           <div className="jnl-reqs">
-            {Object.entries(nextLevel.requirements).map(([k, v]) => {
-              const current = character[k] || 0;
-              const met = current >= v;
+            {Object.entries(nextLevel.requirements).map(([k, reqLevel]) => {
+              const rawValue = character[k] || 0;
+              const charLevel = getWorkLevel(rawValue);
+              const met = charLevel.level >= reqLevel;
               return (
                 <span key={k} className={`jnl-req ${met ? 'met' : 'unmet'}`}>
-                  {STAT_LABELS[k] || k}: {current}/{v} {met ? '✓' : '✗'}
+                  {STAT_LABELS[k] || k}: Lv.{charLevel.level}/{reqLevel} {met ? '✓' : '✗'}
                 </span>
               );
             })}

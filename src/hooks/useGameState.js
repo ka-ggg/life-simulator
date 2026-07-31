@@ -49,7 +49,7 @@ export function useGameState() {
     const level1 = info.career.levels[0];
     if (!checkRequirements(character, level1.requirements)) {
       const missing = getMissingRequirements(character, level1.requirements);
-      const labels = missing.map(m => `${m.label} ${m.current}/${m.required}`).join('、');
+      const labels = missing.map(m => `${m.label} Lv.${m.current}/Lv.${m.required}`).join('、');
       addJobMessage({ type: 'error', text: `不满足入职条件！缺少：${labels}` });
       return;
     }
@@ -71,7 +71,7 @@ export function useGameState() {
     }
     if (!checkRequirements(character, nextLevel.requirements)) {
       const missing = getMissingRequirements(character, nextLevel.requirements);
-      const labels = missing.map(m => `${m.label} ${m.current}/${m.required}`).join('、');
+      const labels = missing.map(m => `${m.label} Lv.${m.current}/Lv.${m.required}`).join('、');
       addJobMessage({ type: 'error', text: `晋升条件不足！缺少：${labels}` });
       return;
     }
